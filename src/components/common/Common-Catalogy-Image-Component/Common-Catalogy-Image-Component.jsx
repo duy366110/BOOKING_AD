@@ -34,7 +34,7 @@ const CommonCatalogyImageComponent = (props) => {
         <div className={classes['common-catalogy-image-component']}>
             {props.images.map((photo) => {
                 return (
-                    <img onClick={deleteImage} data-img={photo} src={`${configEnv.URL}/${photo}`} alt="Thumbnail" />
+                    <img onClick={deleteImage} data-img={photo} src={`${photo}`} alt="Thumbnail" />
                 )
             })}
         </div>
