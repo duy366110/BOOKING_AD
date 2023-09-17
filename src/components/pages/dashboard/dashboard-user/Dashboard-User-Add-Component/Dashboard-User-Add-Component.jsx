@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLoaderData } from "react-router-dom";
+import configEnv from "../../../../../configs/config.env";
 import useValidation from '../../../../../hook/use-validation';
 import useHttp from '../../../../../hook/use-http';
 import CommonButtonComponent from '../../../../common/Common-Button-Component/Common-Button-Component';
@@ -88,7 +89,7 @@ const DashboardUserAddComponent = (props) => {
 
             // THỰC HIỆN GỬI THÔNG TIN TẠO MỚI
             httpMethod({
-                url: `http://localhost:5000/api/admin/user`,
+                url: `${configEnv.URL}/api/admin/user`,
                 method: 'POST', author: '',
                 payload: JSON.stringify(user)
 
@@ -168,7 +169,7 @@ export default DashboardUserAddComponent;
 export const loader = () => {
     return new Promise( async(resolve, reject) => {
         try {
-            let res = await fetch("http://localhost:5000/api/admin/role", {
+            let res = await fetch(`${configEnv.URL}/api/admin/role`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
