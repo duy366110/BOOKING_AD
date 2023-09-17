@@ -40,7 +40,7 @@ const DashboardAddLocationComponent = (props) => {
             }
 
             httpMethod({
-                url: `${configEnv}/api/admin/location`,
+                url: `${configEnv.URL}/api/admin/location`,
                 method: 'POST',
                 author: '',
                 payload: locationForm,
