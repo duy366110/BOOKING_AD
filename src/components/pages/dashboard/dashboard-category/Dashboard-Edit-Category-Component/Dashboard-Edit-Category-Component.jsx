@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
+import configEnv from "../../../../../configs/config.env";
 import useValidation from "../../../../../hook/use-validation";
 import useHttp from "../../../../../hook/use-http";
 import CommonCatalogyImageComponent from "../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component";
@@ -57,7 +58,7 @@ const DashboardEditCategoryComponent = (props) => {
             }
 
             httpMethod({
-                url: 'http://localhost:5000/api/admin/category',
+                url: `${configEnv.URL}/api/admin/category`,
                 method: 'PATCH',
                 author: '',
                 payload: categoryForm,
@@ -117,7 +118,7 @@ export const loader = (request, params) => {
     return new Promise(async(resolve, reject) => {
         try {
             let { category } = params;
-            let res = await fetch(`http://localhost:5000/api/admin/category/${category}`, {
+            let res = await fetch(`${configEnv.URL}/api/admin/category/${category}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',

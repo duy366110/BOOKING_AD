@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import configEnv from "../../../../../configs/config.env";
 import useValidation from "../../../../../hook/use-validation";
 import useHttp from "../../../../../hook/use-http";
 import CommonButtonComponent from "../../../../common/Common-Button-Component/Common-Button-Component";
@@ -40,7 +41,7 @@ const DashboardAddCategoryComponent = (props) => {
             }
 
             httpMethod({
-                url: 'http://localhost:5000/api/admin/category',
+                url: `${configEnv.URL}/api/admin/category`,
                 method: 'POST',
                 author: '',
                 payload: categoryForm,

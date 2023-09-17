@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
+import configEnv from "../../../../configs/config.env";
 import { updateElementToTalRoom, updateCurrentPageRoom } from "../../../../store/store-pagination";
 import useHttp from '../../../../hook/use-http';
 import CommonButtonComponent from '../../../common/Common-Button-Component/Common-Button-Component';
@@ -28,7 +29,7 @@ const DashboardRoomsComponent = (props) => {
             dispatch(updateElementToTalRoom({amount}));
 
             httpMethod({
-                url: `http://localhost:5000/api/admin/room/${pagination.room.elementOfPage}/${(pagination.room.elementOfPage * pagination.room.currentPage)}`,
+                url: `${configEnv.URL}/api/admin/room/${pagination.room.elementOfPage}/${(pagination.room.elementOfPage * pagination.room.currentPage)}`,
                 method: 'GET',
                 author: '',
                 payload: null
@@ -67,7 +68,7 @@ const DashboardRoomsComponent = (props) => {
 
         if(window.confirm('Are you sure delete room!')) {
             httpMethod({
-                url: "http://localhost:5000/api/admin/room",
+                url: `${configEnv.URL}/api/admin/room`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({room: id})
@@ -108,7 +109,7 @@ export default DashboardRoomsComponent;
 export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch("http://localhost:5000/api/admin/room/amount", {
+            let res = await fetch(`${configEnv.URL}/api/admin/room/amount`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

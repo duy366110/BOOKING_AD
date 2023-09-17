@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, useLoaderData } from 'react-router-dom';
+import configEnv from "../../../../../configs/config.env";
 import useValidation from '../../../../../hook/use-validation';
 import useHttp from '../../../../../hook/use-http';
 import CommonButtonComponent from '../../../../common/Common-Button-Component/Common-Button-Component';
@@ -125,7 +126,7 @@ const DashboardEditHotelComponent = (props) => {
             }
 
             httpMethod({
-                url: 'http://localhost:5000/api/admin/hotel',
+                url: `${configEnv.URL}/api/admin/hotel`,
                 method: 'PATCH',
                 author: '',
                 payload: hotelForm,
@@ -233,7 +234,7 @@ export default DashboardEditHotelComponent;
 const loadLocation = async() => {
     return new Promise( async(resolve, reject) => {
         try {
-            let res = await fetch("http://localhost:5000/api/admin/location", {
+            let res = await fetch(`${configEnv.URL}/api/admin/location`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -259,7 +260,7 @@ const loadLocation = async() => {
 const loadCategory = async() => {
     return new Promise( async(resolve, reject) => {
         try {
-            let res = await fetch("http://localhost:5000/api/admin/category", {
+            let res = await fetch(`${configEnv.URL}/api/admin/category`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -285,7 +286,7 @@ const loadCategory = async() => {
 const loadRoom = async() => {
     return new Promise( async(resolve, reject) => {
         try {
-            let res = await fetch("http://localhost:5000/api/admin/room", {
+            let res = await fetch(`${configEnv.URL}/api/admin/room`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -310,7 +311,7 @@ const loadRoom = async() => {
 const loadHotel = async(hotelId) => {
     return new Promise( async(resolve, reject) => {
         try {
-            let res = await fetch(`http://localhost:5000/api/admin/hotel/${hotelId}`, {
+            let res = await fetch(`${configEnv.URL}/api/admin/hotel/${hotelId}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
