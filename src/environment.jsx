@@ -1,12 +1,10 @@
-const environement = {
-    host: {
-        uri: 'http://localhost',
-        port: 5000
+const ENVIRONMENT = {
+    DEV: {
+        URL: 'http://localhost:8080'
     },
-    api: {
-        auth: {
-            signin: "api/admin/auth"
-        }
-    }
+    PRO: {
+        URL: 'https://bookingbe-dae465dde231.herokuapp.com'
+    },
+    MODEL: 'PRO' // DEV
 }
-export default environement;
+export default ENVIRONMENT;

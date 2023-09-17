@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData } from "react-router-dom";
+import configEnv from "../../../../configs/config.env";
 import useHttp from "../../../../hook/use-http";
 import { updateElementToTalBooking, updateCurrentPageBooking } from "../../../../store/store-pagination";
 import DashboardResumeComponent from "../utils/Dashboard-Resume-Component/Dashboard-Resume-Component";
@@ -23,7 +24,7 @@ const DashboardMainComponent = (props) => {
     // PHƯƠNG THỨC LOAD BOOKING
     const loadBookingHandler = async() => {
         httpMethod({
-            url: `http://localhost:5000/api/admin/booking/${pagination.booking.elementOfPage}/${(pagination.booking.elementOfPage * pagination.booking.currentPage)}`,
+            url: `${configEnv.URL}/api/admin/booking/${pagination.booking.elementOfPage}/${(pagination.booking.elementOfPage * pagination.booking.currentPage)}`,
             method: 'GET',
             author: '',
             payload: null,
@@ -73,7 +74,7 @@ export default DashboardMainComponent;
 export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch("http://localhost:5000/api/admin/booking/amount", {
+            let res = await fetch(`${configEnv.URL}/api/admin/booking/amount`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',

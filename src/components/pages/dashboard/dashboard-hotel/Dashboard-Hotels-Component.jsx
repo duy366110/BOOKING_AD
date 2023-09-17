@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLoaderData } from "react-router-dom";
+import configEnv from "../../../../configs/config.env";
 import useHttp from "../../../../hook/use-http";
 import CommonButtonComponent from '../../../common/Common-Button-Component/Common-Button-Component';
 import CommonTableComponent from '../../../common/Common-Table-Component/Common-Table-Component';
@@ -50,7 +51,7 @@ const DashboardHotelsComponent = (props) => {
 
         if(id && window.confirm("Are you sure delete hotel")) {;
             httpMethod({
-                url: `http://localhost:5000/api/admin/hotel`,
+                url: `${configEnv.URL}/api/admin/hotel`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({hotel: id}),
@@ -91,7 +92,7 @@ export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch("http://localhost:5000/api/admin/hotel", {
+            let res = await fetch(`${configEnv.URL}/api/admin/hotel`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
