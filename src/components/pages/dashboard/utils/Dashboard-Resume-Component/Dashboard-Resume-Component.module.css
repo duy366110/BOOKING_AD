@@ -1,0 +1,37 @@
+.dashboard-resume-component {
+    margin-bottom: 30px;
+}
+
+.icons {
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.icons svg {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+}
+
+.icon-users {
+    background-color: rgb(225 48 82 / 50%);
+    color: #e13052;
+}
+
+.icon-orders {
+    background-color: rgb(227 185 83 / 50%);
+    color: #e3b953;
+}
+
+.icon-earnings {
+    background-color: rgb(41 148 41 / 50%);
+    color: rgb(41 148 41);
+}
+
+.icon-blance {
+    background-color: rgb(135 15 135 /  50%);
+    color: rgb(135 15 135);
+}
