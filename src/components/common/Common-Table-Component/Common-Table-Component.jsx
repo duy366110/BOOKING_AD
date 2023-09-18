@@ -99,6 +99,7 @@ const CommonTableComponent = (props) => {
                       <tr key={elm._id}>
                         <th scope="row">{index}</th>
                         <td>{elm.title}</td>
+                        <td>{elm.collections.length}</td>
 
                         {auth.role === 'Admin' && (
                           <td>

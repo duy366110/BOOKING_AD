@@ -9,7 +9,7 @@ import CommonTableComponent from "../../../common/Common-Table-Component/Common-
 import CommonPaginationComponent from "../../../common/Common-Pagination-Component/Common-Pagination-Component";
 import classes from "./Dashboard-Location-Component.module.css";
 
-const HeadTable = ['STT', 'Title', 'Action'];
+const HeadTable = ['STT', 'Name', 'Hotels', 'Action'];
 
 const DashboardLocationComponent = (props) => {
     const navigate = useNavigate();
