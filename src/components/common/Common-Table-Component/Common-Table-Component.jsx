@@ -136,7 +136,6 @@ const CommonTableComponent = (props) => {
                         <td>{elm.name}</td>
                         <td>{elm.city.title}</td>
                         <td>{elm.type.title}</td>
-                        <td>{elm.price.$numberDecimal}</td>
                         <td>{elm.rooms.length}</td>
 
                         {auth.role === 'Admin' && (

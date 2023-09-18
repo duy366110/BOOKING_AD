@@ -37,7 +37,7 @@ const DashboardCategoryComponent = (props) => {
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
-        let { status, messahe, amount} = loader;
+        let { status, message, amount} = loader;
         dispatch(updateElementToTalCategory({amount}));
         loadCategoryHandler();
 
