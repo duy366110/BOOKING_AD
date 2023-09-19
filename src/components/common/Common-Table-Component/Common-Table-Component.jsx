@@ -159,22 +159,19 @@ const CommonTableComponent = (props) => {
                     )
                   })}
 
-                  {/* PHẦN NỘI DUNG BẢNG LIÊN KẾT GIỮA ROOM VÀ HOTEL */}
-                  {props?.type === 'hotelLink' && props?.list.length > 0 && props?.list.map((elm, index) => {
-                    return (
-                      <tr key={elm._id}>
-                        <th scope="row">{index}</th>
-                        <td>{elm.name}</td>
+                  {/* PHẦN NỘI DUNG BẢNG LIÊN KẾT GIỮA ROOM VÀ HOTEL - NỘI DUNG TRANG EDIT ROOM */}
+                  {props?.type === 'hotelLink' && (
+                    <tr>
+                      <th scope="row">{props.body._id}</th>
+                      <td>{props.body.name}</td>
 
-                        {auth.role === 'Admin' && (
-                          <td>
-                            <CommonButtonComponent click={props.edit} kind="contained" title="Edit"  type="button" id={elm._id}/>
-                            <CommonButtonComponent click={props.delete} kind="contained" title="Delete"  type="button" id={elm._id}/>
-                          </td>
-                        )}
-                      </tr>
-                    )
-                  })}
+                      {auth.role === 'Admin' && (
+                        <td>
+                          <CommonButtonComponent click={props.destroy} kind="contained" title="Destroy"  type="button" id={props.body._id}/>
+                        </td>
+                      )}
+                    </tr>
+                  )}
 
                   {/* PHẦN NỘI DUNG BẢNG CỦA ROOM */}
                   {props?.type === 'room' && props?.list.length > 0 && props?.list.map((elm, index) => {
@@ -187,7 +184,7 @@ const CommonTableComponent = (props) => {
                         </td>
                         <td>{elm.price.$numberDecimal}</td>
                         <td>{elm.maxPeople}</td>
-                        <td>{elm.hotels.length}</td>
+                        <td>{elm?.hotel? elm.hotel.name : 'Blane'}</td>
                         
                         {auth.role === 'Admin' && (
                           <td>

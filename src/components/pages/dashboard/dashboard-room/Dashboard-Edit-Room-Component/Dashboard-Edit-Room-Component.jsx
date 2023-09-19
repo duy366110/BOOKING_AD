@@ -7,7 +7,11 @@ import CommonButtonComponent from '../../../../common/Common-Button-Component/Co
 import CommonInputComponent from '../../../../common/Common-Input-Component/Common-Input-Component';
 import CommonTextareaComponent from "../../../../common/Common-Textarea-Component/Common-Textarea-Component";
 import CommonCatalogyImageComponent from "../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component";
+import CommonSelectComponent from '../../../../common/Common-Select-Component/Common-Select-Component';
+import CommonTableComponent from '../../../../common/Common-Table-Component/Common-Table-Component';
 import classes from "./Dashboard-Edit-Room-Component.module.css";
+
+const HeadTable = ['STT', 'Title', 'Action'];
 
 const DashboardEditRoomComponent = (props) => {
     const navigate = useNavigate();
@@ -17,30 +21,38 @@ const DashboardEditRoomComponent = (props) => {
     const titleRef = useRef();
     const priceRef = useRef();
     const peopleRef = useRef();
-    const roomsRef = useRef();
+    const roomNumberRef = useRef();
     const descRef = useRef();
     const photosRef = useRef();
+
+    const hotelRef = useRef();
 
     const { httpMethod } = useHttp();
     const {defaultValue: titleDefaultVal, value: titleValue, valid: titleValid, onBlur: titleBlur, onChange: titleChange} = useValidation(['require']);
     const {defaultValue: priceDefaultVal, value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange} = useValidation(['require']);
     const {defaultValue: peopleDefaultVal, value: peopleValue, valid: peopleValid, onBlur: peopleBlur, onChange: peopleChange} = useValidation(['require']);
     const {value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
-    const {defaultValue: roomsDefaultVal, value: roomsValue, valid: roomsValid, onBlur: roomsBlur, onChange: roomsChange} = useValidation(['require']);
+    const {defaultValue: roomNumberDefaultVal, value: roomNumberValue, valid: roomNumberValid, onBlur: roomNumberBlur, onChange: roomNumberChange} = useValidation(['require']);
     const {defaultValue: descDefaultVal, value: descValue, valid: descValid, onBlur: descBlur, onChange: descChange} = useValidation([]);
 
+    const {defaultValue: hotelDefaultVal, value: hotelValue, valid: hotelValid, onBlur: hotelBlur, onChange: hotelChange} = useValidation(['require']);
+
     const [room, setRoom] = useState(null);
+    const [hotels, setHotels] = useState([]);
 
     // THỰC HIỆN LOAD THÔNG TIN RÔM
     useEffect(() => {
-        let { status, room, message } = loader;
+        let { status, room, hotels } = loader;
+        console.log(room);
+        console.log(hotels);
 
         if(status) {
+            setHotels(hotels);
             setRoom(room);
             titleDefaultVal(room.title);
             priceDefaultVal(room.price.$numberDecimal);
             peopleDefaultVal(room.maxPeople);
-            roomsDefaultVal(room.roomNumbers.join(","));
+            roomNumberDefaultVal(room.roomNumbers.join(","));
             descDefaultVal(room.desc);
         }
 
@@ -68,13 +80,13 @@ const DashboardEditRoomComponent = (props) => {
             peopleInput.focus();
             peopleInput.blur();
 
-            let roomsTextarea = roomsRef.current.textarea.current;
-            roomsTextarea.focus();
-            roomsTextarea.blur();
+            let roomNumberTextarea = roomNumberRef.current.textarea.current;
+            roomNumberTextarea.focus();
+            roomNumberTextarea.blur();
 
             let photosInput = photosRef.current.input.current;
 
-            if((titleValid.status && roomsValid.status ) && (priceValid.status && peopleValid.status)) {
+            if((titleValid.status && roomNumberValid.status ) && (priceValid.status && peopleValid.status)) {
 
                 let roomForm = new FormData();
                 roomForm.append('room', params.room);
@@ -82,7 +94,7 @@ const DashboardEditRoomComponent = (props) => {
                 roomForm.append('price', priceValue);
                 roomForm.append('desc', descValue);
                 roomForm.append('maxPeople', peopleValue);
-                roomForm.append('roomNumber', roomsValue);
+                roomForm.append('roomNumber', roomNumberValue);
 
                 if(photosInput.files.length) {
                     for(let file of photosInput.files) {
@@ -108,10 +120,61 @@ const DashboardEditRoomComponent = (props) => {
         }
     }
 
+    // TẠO LIÊN KẾT ROOM ĐẾN HOTEL
+    const joinRoomToHotelHandler = (event) => {
+        event.preventDefault();
+
+        let hotelSelect = hotelRef.current.select.current;
+        hotelSelect.focus();
+        hotelSelect.blur();
+
+        if(hotelValid.status && room._id) {
+            httpMethod({
+                url: `${configEnv.URL}/api/admin/room/join`,
+                method: 'PATCH',
+                author: '',
+                payload: JSON.stringify({hotel: hotelValue, room: room._id}),
+                customForm: false
+            },
+                (infor) => {
+                let { status, message } = infor;
+
+                if(status) {
+                    navigate("/rooms");
+                }
+            })
+        }
+    }
+
+    // HUỶ LIÊN KẾT GIỮA RÔM VÀ HOTEL
+    const destroyRoomToHotelHandler = (event) => {
+        console.log(event.target.dataset);
+        let { id: hotel } = event.target.dataset;
+
+        if(hotel && room._id) {
+            httpMethod({
+                url: `${configEnv.URL}/api/admin/room/destroy`,
+                method: 'PATCH',
+                author: '',
+                payload: JSON.stringify({hotel: hotel, room: room._id}),
+                customForm: false
+            },
+                (infor) => {
+                let { status, message } = infor;
+
+                if(status) {
+                    navigate("/rooms");
+                }
+            })
+        }
+    }
+
+
     return (
         <div className="dashboard-container">
             <div className={classes['dashboard-add-room-component']}>
-                <form onSubmit={modifiRoomHandler}>
+                <form className={classes['form-information']} onSubmit={modifiRoomHandler}>
+                    <h2 className={classes['container-title']}>Room information</h2>
                     <div className="row">
                         <div className="col-6">
                             <CommonInputComponent
@@ -145,9 +208,9 @@ const DashboardEditRoomComponent = (props) => {
 
                         <div className="col-6">
                             <CommonTextareaComponent
-                                ref={roomsRef} blur={roomsBlur}
-                                change={roomsChange} label="Room number *"
-                                value={roomsValue} valid={roomsValid} />
+                                ref={roomNumberRef} blur={roomNumberBlur}
+                                change={roomNumberChange} label="Room number *"
+                                value={roomNumberValue} valid={roomNumberValid} />
                         </div>
 
                         <div className="col-6">
@@ -165,11 +228,36 @@ const DashboardEditRoomComponent = (props) => {
                     </div>
 
                     <div className="d-flex">
-                        <div className="mr-3">
-                            <CommonButtonComponent click={navigateLinkRoomHotelHandler} kind="contained" title="Link to hotel"  type="button"/>
-                        </div>
                         <CommonButtonComponent kind="contained" title="Edit room"  type="submit"/>
                     </div>
+                </form>
+
+                <form className={classes['form-information']} onSubmit={joinRoomToHotelHandler}>
+                    <h2 className={classes['container-title']}>Room of hotel</h2>
+                    <div className="row">
+                        {!room?.hotel && (
+                            <div className="col-6">
+                                <CommonSelectComponent
+                                    label="Hotels *" options={hotels} ref={hotelRef}
+                                    blur={hotelBlur} change={hotelChange}
+                                    valueDefaultOption={'Choose hotel link room..'}
+                                    value={hotelValue} valid={hotelValid} />
+                            </div>
+                        )}
+
+                        {room?.hotel && (
+                            <div className="col-12">
+                                <CommonTableComponent destroy={destroyRoomToHotelHandler} head={HeadTable} body={room.hotel} type="hotelLink"/>
+                            </div>
+                        )}
+                    </div>
+
+                    {!room?.hotel && (
+                        <div className="d-flex">
+                            <CommonButtonComponent kind="contained" title="Join room tohotel"  type="submit"/>
+                        </div>
+                    )}
+
                 </form>
             </div>
         </div>
@@ -178,29 +266,67 @@ const DashboardEditRoomComponent = (props) => {
 
 export default DashboardEditRoomComponent;
 
-
-// PHƯƠNG THỨC LOAD THÔNG TIN TRƯỚC KHI CẬP NHẬT
-export const loader = (request, params) => {
-    return new Promise( async (resolve, reject) => {
+// LOADER HOTEL
+const loadHotel = async () => {
+    return new Promise( async(resolve, reject) => {
         try {
-            let { room } = params;
-            let res = await fetch(`${configEnv.URL}/api/admin/room/${room}`, {
+            let res = await fetch(`${configEnv.URL}/api/admin/hotel/all`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': ''
+                    "Content-Type": 'application/json',
+                    "Authorization": ''
                 }
             })
-    
+
             if(!res.ok) {
                 let infor = await res.json();
                 throw Error(infor.message);
             }
-            
+
             resolve(await res.json());
-    
+
         } catch (error) {
-            reject(error);
-        }  
+            reject({status: false, error});
+        }
+    })
+}
+
+// LOADER ROOM
+const loadRoom = async (room) => {
+    return new Promise( async(resolve, reject) => {
+        try {
+            let res = await fetch(`${configEnv.URL}/api/admin/room/${room}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": ''
+                }
+            })
+
+            if(!res.ok) {
+                let infor = await res.json();
+                throw Error(infor.message);
+            }
+
+            resolve(await res.json());
+
+        } catch (error) {
+            reject({status: false, error});
+        }
+    })
+}
+
+// THỰC HIỆN LOADER THÔNG TIN TRANG CHỦ
+export const loader = (request, params) => {
+    return new Promise( async(resolve, reject) => {
+        try {
+            let { room } = params;
+            let data = await Promise.all([loadRoom(room), loadHotel()]);
+            let [{room: roomInfor}, {hotels}] = data;
+            resolve({status: true , room: roomInfor, hotels});
+
+        } catch (error) {
+            reject({status: false, error});
+        }
     })
 }

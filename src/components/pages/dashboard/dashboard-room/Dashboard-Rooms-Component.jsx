@@ -35,6 +35,7 @@ const DashboardRoomsComponent = (props) => {
                 payload: null
             }, (infor) => {
                 let { status, message, rooms } = infor;
+                console.log(rooms);
                 setRooms(rooms);
             })
         }
