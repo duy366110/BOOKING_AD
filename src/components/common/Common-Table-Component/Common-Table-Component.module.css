@@ -10,6 +10,10 @@
     width: 195px;
 }
 
+.table-component tbody tr td {
+    min-width: 150px;
+}
+
 .table-component tbody tr td:last-child {
     display: flex;
     align-items: center;
