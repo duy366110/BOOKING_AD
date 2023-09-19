@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import configEnv from "../../../../configs/config.env";
+import useHttp from "../../../../hook/use-http";
 import { authSignin } from "../../../../store/store-auth";
 import useValidation from "../../../../hook/use-validation";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
@@ -12,11 +13,10 @@ const AuthSignInComponent = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [formValid, setFormValid] = useState('');
-
     const emailRef = useRef();
     const passwordRef = useRef();
 
+    const { httpMethod } = useHttp();
     const {value: emailValue, valid: emailValid, onBlur: emailBlur, onChange: emailChange} = useValidation(['require', 'email']);
     const {value: passwordValue, valid: passwordValid, onBlur: passwordBlur, onChange: passwordChange} = useValidation(['require', 'password']);
 
@@ -33,33 +33,25 @@ const AuthSignInComponent = (props) => {
         inputPassword.blur();
 
         if(emailValid.status && passwordValid.status) {
-            try {
-                let res = await fetch(`${configEnv.URL}/api/auth/signin/admin`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({email: emailValue, password: passwordValue})
-                })
 
-                if(!res.ok) {
-                    let infor = await res.json();
-                    throw Error(infor.message);
-                }
-
-                let { status, message, infor } = await res.json();
-
-                if(status) {
-                    let { username, fullname, phone, role } = infor;
-                    localStorage.setItem('user', JSON.stringify({username, fullname, phone, role}));
-                    localStorage.setItem('token', infor.token);
-                    dispatch(authSignin({infor}));
-                    navigate("/");
-                }
-
-            } catch (error) {
-                setFormValid(error.message);
-            }
+            httpMethod({
+                url: `${configEnv.URL}/api/auth/signin/admin`,
+                method: 'POST',
+                author: '',
+                payload: JSON.stringify({email: emailValue, password: passwordValue}),
+                customForm: false
+            },
+                (information) => {
+                    let { status, message, infor} = information;
+                    
+                    if(status) {
+                        let { username, fullname, phone, role } = infor;
+                        localStorage.setItem('user', JSON.stringify({username, fullname, phone, role}));
+                        localStorage.setItem('token', infor.token);
+                        dispatch(authSignin({infor}));
+                        navigate("/");
+                    }
+            })
         }
     }
 
@@ -67,7 +59,6 @@ const AuthSignInComponent = (props) => {
         <div className={classes['auth-component']}>
             <form className={classes['auth-form']} onSubmit={signInHandler}>
                 <h2 className={classes['form-title']}>Sign in</h2>
-                {formValid && (<h4 className="form-message">{formValid}</h4>) }
                 <CommonInputComponent
                     type='email'
                     ref={emailRef} blur={emailBlur}

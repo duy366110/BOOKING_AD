@@ -9,7 +9,7 @@ import CommonButtonComponent from '../../../common/Common-Button-Component/Commo
 import CommonPaginationComponent from '../../../common/Common-Pagination-Component/Common-Pagination-Component';
 import classes from "./Dashboard-User-Component.module.css";
 
-const HeadTable = ['STT', 'User name', 'Full name', 'E-mail', 'Phone number', 'Action'];
+const HeadTable = ['STT', 'User name', 'Full name', 'E-mail', 'Phone number', 'Role', 'Action'];
 
 const DashboardUserComponent = (props) => {
     const navigate = useNavigate();

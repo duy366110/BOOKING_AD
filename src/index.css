@@ -43,17 +43,6 @@ code {
   text-transform: capitalize;
 }
 
-/* FORM */
-.form-message {
-  background-color: #be00003b;
-  border-radius: 3px;
-  color: #be0000;
-  font-size: 15px;
-  letter-spacing: .3px;
-  padding: 5px 10px;
-  text-align: center;
-}
-
 /* BLANK MESSAGE */
 .blank {
   color: var(--first-color);

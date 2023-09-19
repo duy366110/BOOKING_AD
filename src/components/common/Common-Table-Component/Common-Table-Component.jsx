@@ -82,6 +82,7 @@ const CommonTableComponent = (props) => {
                         <td>{elm.fullname}</td>
                         <td>{elm.email}</td>
                         <td>{elm.phonenumber}</td>
+                        <td>{elm.role.name}</td>
 
                         {auth.role === 'Admin' && (
                           <td>
