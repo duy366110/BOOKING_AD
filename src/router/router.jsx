@@ -35,7 +35,6 @@ const DashboardEditHotelComponent = lazy(() => import("../components/pages/dashb
 const DashboardRoomsComponent = lazy(() => import("../components/pages/dashboard/dashboard-room/Dashboard-Rooms-Component"));
 const DashboardAddRoomComponent = lazy(() => import("../components/pages/dashboard/dashboard-room/Dashboard-Add-Room-Component/Dashboard-Add-Room-Component"));
 const DashboardEditRoomComponent = lazy(() => import("../components/pages/dashboard/dashboard-room/Dashboard-Edit-Room-Component/Dashboard-Edit-Room-Component"));
-const DashboardLinkRoomHotelComponent = lazy(() => import("../components/pages/dashboard/dashboard-room/Dashboard-Link-Room-Hotel-Component/Dashboard-Link-Room-Hotel-Component"));
 
 // AUTHORIZATION
 const AuthComponent = lazy(() => import("../components/pages/auth/Auth-Component"));
@@ -136,11 +135,6 @@ const router = createBrowserRouter([
                         path: 'edit-room/:room',
                         loader: ({request, params}) => import("../components/pages/dashboard/dashboard-room/Dashboard-Edit-Room-Component/Dashboard-Edit-Room-Component").then((m) => m.loader(request, params)),
                         element: <Suspense fallback={<p>Loading...</p>}><DashboardEditRoomComponent /></Suspense>
-                    },
-                    {
-                        path: "link-room-hotel/:room",
-                        loader: ({request, params}) => import("../components/pages/dashboard/dashboard-room/Dashboard-Link-Room-Hotel-Component/Dashboard-Link-Room-Hotel-Component").then((m) => m.loader(request, params)),
-                        element: <Suspense fallback={<p>Loading...</p>}><DashboardLinkRoomHotelComponent /></Suspense>
                     },
                     // ROLE
                     {

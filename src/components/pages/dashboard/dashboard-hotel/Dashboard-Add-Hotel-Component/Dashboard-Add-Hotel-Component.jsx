@@ -23,7 +23,6 @@ const DashboardAddHotelComponent = (props) => {
     const addressRef = useRef();
     const distanceRef = useRef();
     const descRef = useRef();
-    // const priceRef = useRef();
     const photosRef = useRef();
     const featureRef = useRef();
 
@@ -37,7 +36,6 @@ const DashboardAddHotelComponent = (props) => {
     const {value: addressValue, valid: addressValid, onBlur: addressBlur, onChange: addressChange} = useValidation(['require']);
     const {value: distanceValue, valid: distanceValid, onBlur: distanceBlur, onChange: distanceChange} = useValidation([]);
     const {value: descValue, valid: descValid, onBlur: descBlur, onChange: descChange} = useValidation([]);
-    // const {value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange} = useValidation(['require']);
     const {value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
     const {value: featureValue, valid: featureValid, onBlur: featureBlur, onChange: featureChange} = useValidation([]);
 
@@ -48,8 +46,6 @@ const DashboardAddHotelComponent = (props) => {
         if(status) {
             setLocations(locations);
             setCategories(categories);
-            // setRooms(rooms);
-            
         }
     }
 
@@ -86,10 +82,6 @@ const DashboardAddHotelComponent = (props) => {
         descInput.focus();
         descInput.blur();
 
-        // let priceInput = priceRef.current.input.current;
-        // priceInput.focus();
-        // priceInput.blur();
-
         let photosInput = photosRef.current.input.current;
 
         // KIỂM TRA VALIDATION TRƯỚC KHI SUBMIT TẠO MỚI
@@ -104,7 +96,6 @@ const DashboardAddHotelComponent = (props) => {
             hotelForm.append('distance', distanceValue);
             hotelForm.append('desc', descValue);
             hotelForm.append('feature', featureValue? featureValue === 'Yes'? true : false : false);
-            // hotelForm.append('price', priceValue);
 
             if(photosInput.files.length) {
                 for(let file of photosInput.files) {
@@ -177,12 +168,6 @@ const DashboardAddHotelComponent = (props) => {
                                 label="Description" value={descValue} valid={descValid} />
                         </div>
 
-                        {/* <div className="col-6">
-                            <CommonInputComponent
-                                ref={priceRef} type="number"
-                                blur={priceBlur} change={priceChange}
-                                label="Price *" value={priceValue} valid={priceValid} />
-                        </div> */}
 
                         <div className="col-6">
                             <CommonInputComponent

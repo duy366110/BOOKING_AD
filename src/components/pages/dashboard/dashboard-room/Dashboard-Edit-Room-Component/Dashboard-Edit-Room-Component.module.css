@@ -1,0 +1,13 @@
+.form-information {
+    border: 1px solid #e5e5e5;
+    margin-bottom: 25px;
+    padding: 20px;
+}
+
+.container-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+}
