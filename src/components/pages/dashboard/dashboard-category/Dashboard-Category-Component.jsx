@@ -9,7 +9,7 @@ import CommonTableComponent from "../../../common/Common-Table-Component/Common-
 import CommonPaginationComponent from "../../../common/Common-Pagination-Component/Common-Pagination-Component";
 import classes from "./Dashboard-Category-Component.module.css";
 
-const HeadTable = ['STT', 'Title', 'Action'];
+const HeadTable = ['STT', 'Title', "Image", "Hotels", 'Action'];
 
 const DashboardCategoryComponent = (props) => {
     const navigate = useNavigate();

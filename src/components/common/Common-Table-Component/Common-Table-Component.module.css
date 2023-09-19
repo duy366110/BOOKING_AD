@@ -16,6 +16,10 @@
     gap: 15px;
 }
 
+.tb-image {
+    width: 90px;
+}
+
 /* TBODY BOOKING */
 .tbody-td-booking-status {
     border-radius: 5px;

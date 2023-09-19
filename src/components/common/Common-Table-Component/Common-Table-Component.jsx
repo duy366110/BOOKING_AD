@@ -99,6 +99,9 @@ const CommonTableComponent = (props) => {
                       <tr key={elm._id}>
                         <th scope="row">{index}</th>
                         <td>{elm.title}</td>
+                        <td>
+                          <img className={classes['tb-image']} src={elm.images[0]} alt="Location humbail" />
+                        </td>
                         <td>{elm.collections.length}</td>
 
                         {auth.role === 'Admin' && (
@@ -117,6 +120,10 @@ const CommonTableComponent = (props) => {
                       <tr key={elm._id}>
                         <th scope="row">{index}</th>
                         <td>{elm.title}</td>
+                        <td>
+                          <img className={classes['tb-image']} src={elm.images[0]} alt="Category humbail" />
+                        </td>
+                        <td>{elm.collections.length}</td>
 
                         {auth.role === 'Admin' && (
                           <td>
@@ -136,7 +143,7 @@ const CommonTableComponent = (props) => {
                         <td>{elm.name}</td>
                         <td>{elm.city.title}</td>
                         <td>
-                          <img style={{width: '90px'}} src={elm.images[0]} alt="Hotel humbail" />
+                          <img className={classes['tb-image']} src={elm.images[0]} alt="Hotel humbail" />
                         </td>
                         <td>{elm.type.title}</td>
                         <td>{elm.rooms.length}</td>
@@ -174,6 +181,9 @@ const CommonTableComponent = (props) => {
                       <tr key={index}>
                         <th scope="row">{index}</th>
                         <td>{elm.title}</td>
+                        <td>
+                          <img className={classes['tb-image']} src={elm.images[0]} alt="Room humbail" />
+                        </td>
                         <td>{elm.price.$numberDecimal}</td>
                         <td>{elm.maxPeople}</td>
                         <td>{elm.hotels.length}</td>
