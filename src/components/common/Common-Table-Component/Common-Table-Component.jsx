@@ -135,6 +135,9 @@ const CommonTableComponent = (props) => {
                         <th scope="row">{index}</th>
                         <td>{elm.name}</td>
                         <td>{elm.city.title}</td>
+                        <td>
+                          <img style={{width: '90px'}} src={elm.images[0]} alt="Hotel humbail" />
+                        </td>
                         <td>{elm.type.title}</td>
                         <td>{elm.rooms.length}</td>
 

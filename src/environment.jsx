@@ -5,6 +5,6 @@ const ENVIRONMENT = {
     PRO: {
         URL: 'https://bookingbe-dae465dde231.herokuapp.com'
     },
-    MODEL: 'DEV' // PRO
+    MODEL: 'PRO' // DEV
 }
 export default ENVIRONMENT;
