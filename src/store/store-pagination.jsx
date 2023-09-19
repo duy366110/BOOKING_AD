@@ -19,6 +19,12 @@ const initState = {
         elemtItemsPagination: 0,
         currentPage: 0,
     },
+    // HOTEL
+    hotel: {
+        elementOfPage: 5,
+        elemtItemsPagination: 0,
+        currentPage: 0,
+    },
     // ROOM
     room: {
         elementOfPage: 5,
@@ -155,6 +161,43 @@ const paginationslice = createSlice({
                 }
             },
 
+        // HOTEL
+            // CẬP NHẬT SỐ LƯỢNG NỘI DUNG HIỆN CÓ CỦA TRANG HOTEL
+            updateElementToTalHotel: (state, action) => {
+                let { amount } = action.payload;
+                state.hotel.elemtItemsPagination = Math.ceil(Number(amount) / state.hotel.elementOfPage);
+            },
+
+            // PAGINATION CẬP NHẬT TRANG HIỆN TẠI CỦA TRANG HOTEL
+            updateCurrentPageHotel: (state, action) => {
+                let { page } = action.payload;
+
+                switch(page) {
+                    case 'next':
+                        if(state.hotel.currentPage === (state.hotel.elemtItemsPagination - 1)) {
+                            state.hotel.currentPage = 0;
+
+                        } else {
+                            state.hotel.currentPage += 1;
+                        }
+
+                        break
+
+                    case 'previous':
+                        if(state.hotel.currentPage === 0) {
+                            state.hotel.currentPage = (state.hotel.elemtItemsPagination - 1);
+
+                        } else {
+                            state.hotel.currentPage -= 1;
+                        }
+                        break
+
+                    default:
+                        state.hotel.currentPage = Number(page);
+                        break
+                }
+            },
+
         // ROOM
             // CẬP NHẬT SỐ LƯỢNG NỘI DUNG HIỆN CÓ CỦA TRANG ROOM
             updateElementToTalRoom: (state, action) => {
@@ -281,6 +324,10 @@ export const {
     // CATEGORY
     updateElementToTalCategory,
     updateCurrentPageCategory,
+
+    // HOTEL
+    updateElementToTalHotel,
+    updateCurrentPageHotel,
 
     // ROOM
     updateElementToTalRoom,

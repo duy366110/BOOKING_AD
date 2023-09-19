@@ -1,37 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLoaderData } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 import configEnv from "../../../../configs/config.env";
 import useHttp from "../../../../hook/use-http";
+import { updateElementToTalHotel, updateCurrentPageHotel } from "../../../../store/store-pagination";
 import CommonButtonComponent from '../../../common/Common-Button-Component/Common-Button-Component';
 import CommonTableComponent from '../../../common/Common-Table-Component/Common-Table-Component';
+import CommonPaginationComponent from '../../../common/Common-Pagination-Component/Common-Pagination-Component';
 import classes from "./Dashboard-Hotels-Component.module.css";
 
-const HeadTable = ['STT', 'Name', 'City', 'Type', 'Price', 'rooms', 'Action'];
+const HeadTable = ['STT', 'Name', 'City', 'Type', 'rooms', 'Action'];
 
 const DashboardHotelsComponent = (props) => {
     const navigate = useNavigate();
     const loader = useLoaderData();
+    const dispatch = useDispatch();
+    const pagination = useSelector(state => state.pagination);
 
     const { httpMethod } = useHttp();
 
     const [hotels, setHotels] = useState([]);
     const [reload, setReload] = useState(false);
 
-    // PHƯƠNG THỨC LẤY THÔNG TIN HOTEL
-    const getHotels = async () => {
-        try {
-            let { status, message, hotels } = loader;
+    // PHƯƠNG THỨC LOAD CATEGORY
+    const loadHotelHandler = async() => {
+        httpMethod({
+            url: `${configEnv.URL}/api/admin/hotel/${pagination.hotel.elementOfPage}/${(pagination.hotel.elementOfPage * pagination.hotel.currentPage)}`,
+            method: 'GET',
+            author: '',
+            payload: null,
+            customForm: false
+        }, (infor) => {
+            let { status, message, hotels } = infor;
             setHotels(hotels);
-
-        } catch (error) {
-            throw error;
-
-        }
+        })
     }
 
     // PHƯƠNG THỨC THỰC HIỆN GỌI LẦN ĐẦU KÍCH HOẠT LẤY THÔNG TIN
     useEffect(() => {
-        getHotels();
+        let { status, message, amount} = loader;
+        if(status) {
+            dispatch(updateElementToTalHotel({amount}));
+            loadHotelHandler();
+        }
+
     }, [reload])
 
     // REDIRECT ĐẾN TRANG THÊM MỚI HOTEL
@@ -67,6 +79,12 @@ const DashboardHotelsComponent = (props) => {
         }
     }
 
+    // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
+    const paginationHandler = (event) => {
+        let { pagi } = event.target.closest("#btn-pagi").dataset;
+        dispatch(updateCurrentPageHotel({page: pagi}));
+    }
+
     return (
         <div className="dashboard-container">
             <div className={classes['dashboard-hotel-component']}>
@@ -80,6 +98,10 @@ const DashboardHotelsComponent = (props) => {
                 )}
 
                 {hotels.length == 0 && (<h2 className="blank">Not found hotels</h2>)}
+
+                <CommonPaginationComponent
+                    click={paginationHandler}
+                    items={ Array.from({length: pagination.hotel.elemtItemsPagination}, (elm, index) => index)} />
             </div>
         </div>
     )
@@ -92,7 +114,7 @@ export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch(`${configEnv.URL}/api/admin/hotel`, {
+            let res = await fetch(`${configEnv.URL}/api/admin/hotel/amount`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

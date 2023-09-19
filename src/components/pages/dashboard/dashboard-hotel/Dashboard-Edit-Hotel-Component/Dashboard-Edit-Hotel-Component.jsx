@@ -25,7 +25,7 @@ const DashboardEditHotelComponent = (props) => {
     const addressRef = useRef();
     const distanceRef = useRef();
     const descRef = useRef();
-    const priceRef = useRef();
+    // const priceRef = useRef();
     const photosRef = useRef();
     const featureRef = useRef();
 
@@ -40,7 +40,7 @@ const DashboardEditHotelComponent = (props) => {
     const { defaultValue: addressDefaultVal, value: addressValue, valid: addressValid, onBlur: addressBlur, onChange: addressChange } = useValidation(['require']);
     const { defaultValue: distanceDefaultVal, value: distanceValue, valid: distanceValid, onBlur: distanceBlur, onChange: distanceChange } = useValidation([]);
     const { defaultValue: descDefaultVal, value: descValue, valid: descValid, onBlur: descBlur, onChange: descChange } = useValidation([]);
-    const { defaultValue: priceDefaultVal, value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange } = useValidation(['require']);
+    // const { defaultValue: priceDefaultVal, value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange } = useValidation(['require']);
     const { value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange } = useValidation([]);
     const { defaultValue: featureDefaultVal, value: featureValue, valid: featureValid, onBlur: featureBlur, onChange: featureChange } = useValidation([]);
 
@@ -59,7 +59,7 @@ const DashboardEditHotelComponent = (props) => {
             addressDefaultVal(hotel.address);
             distanceDefaultVal(hotel.distance);
             descDefaultVal(hotel.desc);
-            priceDefaultVal(hotel.price.$numberDecimal);
+            // priceDefaultVal(hotel.price.$numberDecimal);
             featureDefaultVal(hotel.featured? "Yes": 'No');
         }
     }
@@ -98,15 +98,15 @@ const DashboardEditHotelComponent = (props) => {
         descInput.focus();
         descInput.blur();
 
-        let priceInput = priceRef.current.input.current;
-        priceInput.focus();
-        priceInput.blur();
+        // let priceInput = priceRef.current.input.current;
+        // priceInput.focus();
+        // priceInput.blur();
 
         let featureSelect = featureRef.current.select.current;
         let photosInput = photosRef.current.input.current;
 
 
-        if((nameValid.status && typeValid.status) && (locationValid.status && addressValid.status) && priceValid.status) {
+        if((nameValid.status && typeValid.status) && (locationValid.status && addressValid.status)) {
 
             let hotelForm = new FormData();
             hotelForm.append("hotel", params.hotelId);
@@ -116,7 +116,7 @@ const DashboardEditHotelComponent = (props) => {
             hotelForm.append('address', addressValue);
             hotelForm.append('distance', distanceValue);
             hotelForm.append('desc', descValue);
-            hotelForm.append('price', priceValue);
+            // hotelForm.append('price', priceValue);
             hotelForm.append('feature', featureValue? featureValue === 'Yes'? true : false : false);
 
             if(photosInput.files.length) {
@@ -191,12 +191,12 @@ const DashboardEditHotelComponent = (props) => {
                                 label="Description" value={descValue} valid={descValid} />
                         </div>
 
-                        <div className="col-6">
+                        {/* <div className="col-6">
                             <CommonInputComponent
                                 ref={priceRef} type="number"
                                 blur={priceBlur} change={priceChange}
                                 label="Price *" value={priceValue} valid={priceValid} />
-                        </div>
+                        </div> */}
 
                         <div className="col-6">
                             <CommonSelectComponent
@@ -212,7 +212,9 @@ const DashboardEditHotelComponent = (props) => {
                                 ref={photosRef} type="file"
                                 blur={photosBlur} change={photosChange}
                                 label="Images" valid={photosValid} />
+                        </div>
 
+                        <div className="col-12">
                             {hotel && hotel?.images.length > 0 && (
                                 <CommonCatalogyImageComponent images={hotel?.images} endpoint="hotel" id={hotel._id} />
                             )}
