@@ -25,7 +25,6 @@ const DashboardEditHotelComponent = (props) => {
     const addressRef = useRef();
     const distanceRef = useRef();
     const descRef = useRef();
-    // const priceRef = useRef();
     const photosRef = useRef();
     const featureRef = useRef();
 
@@ -40,7 +39,6 @@ const DashboardEditHotelComponent = (props) => {
     const { defaultValue: addressDefaultVal, value: addressValue, valid: addressValid, onBlur: addressBlur, onChange: addressChange } = useValidation(['require']);
     const { defaultValue: distanceDefaultVal, value: distanceValue, valid: distanceValid, onBlur: distanceBlur, onChange: distanceChange } = useValidation([]);
     const { defaultValue: descDefaultVal, value: descValue, valid: descValid, onBlur: descBlur, onChange: descChange } = useValidation([]);
-    // const { defaultValue: priceDefaultVal, value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange } = useValidation(['require']);
     const { value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange } = useValidation([]);
     const { defaultValue: featureDefaultVal, value: featureValue, valid: featureValid, onBlur: featureBlur, onChange: featureChange } = useValidation([]);
 
@@ -59,7 +57,6 @@ const DashboardEditHotelComponent = (props) => {
             addressDefaultVal(hotel.address);
             distanceDefaultVal(hotel.distance);
             descDefaultVal(hotel.desc);
-            // priceDefaultVal(hotel.price.$numberDecimal);
             featureDefaultVal(hotel.featured? "Yes": 'No');
         }
     }
@@ -98,10 +95,6 @@ const DashboardEditHotelComponent = (props) => {
         descInput.focus();
         descInput.blur();
 
-        // let priceInput = priceRef.current.input.current;
-        // priceInput.focus();
-        // priceInput.blur();
-
         let featureSelect = featureRef.current.select.current;
         let photosInput = photosRef.current.input.current;
 
@@ -116,7 +109,6 @@ const DashboardEditHotelComponent = (props) => {
             hotelForm.append('address', addressValue);
             hotelForm.append('distance', distanceValue);
             hotelForm.append('desc', descValue);
-            // hotelForm.append('price', priceValue);
             hotelForm.append('feature', featureValue? featureValue === 'Yes'? true : false : false);
 
             if(photosInput.files.length) {
@@ -190,13 +182,6 @@ const DashboardEditHotelComponent = (props) => {
                                 blur={descBlur} change={descChange}
                                 label="Description" value={descValue} valid={descValid} />
                         </div>
-
-                        {/* <div className="col-6">
-                            <CommonInputComponent
-                                ref={priceRef} type="number"
-                                blur={priceBlur} change={priceChange}
-                                label="Price *" value={priceValue} valid={priceValid} />
-                        </div> */}
 
                         <div className="col-6">
                             <CommonSelectComponent
