@@ -3,7 +3,7 @@ const ENVIRONMENT = {
         URL: 'http://localhost:8080'
     },
     PRO: {
-        URL: 'https://bookingbe-dae465dde231.herokuapp.com'
+        URL: 'https://booking-t0o7.onrender.com'
     },
     MODEL: 'PRO' // DEV
 }
